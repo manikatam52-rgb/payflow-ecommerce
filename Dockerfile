@@ -19,10 +19,10 @@ RUN npm install --omit=dev
 
 # Copy server files
 COPY server ./
-RUN npx prisma generate && npx prisma db seed
+RUN npx prisma generate
 
 # Copy built frontend assets to server public folder
 COPY --from=frontend-builder /app/client/dist ./public
 
 EXPOSE 5000
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
