@@ -26,7 +26,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ ok: true, message: 'PayFlow API is running.' });
 });
 
