@@ -1,5 +1,8 @@
 FROM node:20-alpine
 
+# Install build tools required for native C++ dependencies like better-sqlite3
+RUN apk add --no-co-cache python3 make g++
+
 WORKDIR /app
 
 COPY server/package*.json ./
@@ -7,9 +10,5 @@ RUN npm install --omit=dev
 
 COPY server ./
 
-ENV NODE_ENV=production
-ENV PORT=5000
-
 EXPOSE 5000
-
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
