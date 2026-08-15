@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
@@ -122,6 +123,12 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
