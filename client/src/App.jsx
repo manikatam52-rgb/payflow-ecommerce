@@ -6,7 +6,8 @@ import { ShoppingCart, Package, CreditCard, CheckCircle2 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import CheckoutForm from './CheckoutForm';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_dummy');
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/api/products`)
+      .get(`${apiBaseUrl}/api/products`)
       .then((res) => setProducts(res.data))
       .catch(() => toast.error('Failed to load products'));
   }, []);
@@ -39,7 +40,7 @@ export default function App() {
 
   const handleStartCheckout = async () => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-payment-intent`, {
+      const res = await axios.post(`${apiBaseUrl}/api/create-payment-intent`, {
         items: cart,
       });
       setClientSecret(res.data.clientSecret);
